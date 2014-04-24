@@ -9,8 +9,8 @@ echo_bad () {
     echo "$(tput setaf 1 && tput bold)$@$(tput sgr 0)"
 }
 
-# http://stackoverflow.com/questions/3231804/in-bash-how-to-add-are-you-sure-y-n-to-any-command-or-alias
 confirm () {
+    # http://stackoverflow.com/questions/3231804/in-bash-how-to-add-are-you-sure-y-n-to-any-command-or-alias
     # call with a prompt string or use a default
     read -r -p "$(echo_loud "${1:-Would you like to proceed?} [y/N]")" response
     case $response in
@@ -34,6 +34,9 @@ cd_to_build_dir() {
     fi
     cd $BUILD_DIR
 }
+
+echo_loud "Checking for tmux..."
+sudo apt-get install tmux
 
 echo_loud "Checking for nodejs and npm..."
 if [ ! $(which node) ] || [ ! $(which npm) ]; then
@@ -116,7 +119,6 @@ vim_plugin_install vim-css-color https://github.com/skammer/vim-css-color
 vim_plugin_install vim-javascript https://github.com/pangloss/vim-javascript
 vim_plugin_install vim-javascript-syntax https://github.com/jelera/vim-javascript-syntax.git
 
-# YouCompleteMe
 if [ ! -d YouCompleteMe ]; then
     echo_loud "Installing YouCompleteMe WITHOUT C/C++ support.  If you need C/C++, install it manually"
     echo_loud "from the docs: https://github.com/Valloric/YouCompleteMe"
