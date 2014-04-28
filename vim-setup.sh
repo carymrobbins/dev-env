@@ -35,6 +35,9 @@ cd_to_build_dir() {
     cd $BUILD_DIR
 }
 
+echo_loud "Updating apt-get..."
+sudo apt-get update
+
 echo_loud "Checking for tmux..."
 sudo apt-get install tmux
 
@@ -62,7 +65,7 @@ done
 # Build vim from source
 if [ $(has_old_vim_version) ]; then
     echo_loud "Looks like your vim is pretty old.  To use YouCompleteMe you need to build from source."
-    if [ $(confirm "Build from source now?") ]; then
+    confirm "Build from source now?" && {
         sudo apt-get install libncurses5-dev libgnome2-dev libgnomeui-dev \
             libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
             libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev ruby-dev mercurial
@@ -88,13 +91,14 @@ if [ $(has_old_vim_version) ]; then
         else
             echo_loud "Build from source complete!"
         fi
-    fi
+    }
 fi
 
 echo_loud "Checking for pathogen..."
 mkdir -p ~/.vim/autoload ~/.vim/bundle
 if [ ! -f ~/.vim/autoload/pathogen.vim ]; then
-    curl -so ~/.vim/autoload/pathogen.vim \
+    echo_loud "Installing pathogen..."
+    curl -LSso ~/.vim/autoload/pathogen.vim \
             https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
     echo_loud "Make sure your .vimrc has the following line:"
     echo_loud "execute pathogen#infect()"
@@ -120,10 +124,11 @@ vim_plugin_install vim-javascript https://github.com/pangloss/vim-javascript
 vim_plugin_install vim-javascript-syntax https://github.com/jelera/vim-javascript-syntax.git
 
 if [ ! -d YouCompleteMe ]; then
-    echo_loud "Installing YouCompleteMe WITHOUT C/C++ support.  If you need C/C++, install it manually"
-    echo_loud "from the docs: https://github.com/Valloric/YouCompleteMe"
-    if [ $(confirm) ]; then 
+    echo_loud "Installing YouCompleteMe WITHOUT C/C++ support.  If you need C/C++, install it manually" \
+              "from the docs: https://github.com/Valloric/YouCompleteMe"
+    confirm && {
         git clone https://github.com/Valloric/YouCompleteMe
+        cd YouCompleteMe
         git submodule update --init --recursive
         sudo apt-get install cmake
         sudo apt-get install python-dev
@@ -131,6 +136,7 @@ if [ ! -d YouCompleteMe ]; then
         mkdir -p ycm_build
         cd ycm_build
         cmake -G "Unix Makefiles" . ~/.vim/bundle/YouCompleteMe/cpp
+        make ycm_support_libs
         echo_loud "YouCompleteMe installation complete!"
-    fi
+    }
 fi
