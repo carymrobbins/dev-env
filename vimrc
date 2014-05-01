@@ -2,6 +2,8 @@ execute pathogen#infect()
 syntax on
 filetype plugin on
 filetype indent on
+"Look for tags starting with current directory traversing upwards.
+set tags=./tags,tags;
 "Allow mouse scroll.
 set mouse=nicr
 "Use line numbers, color them grey.
