@@ -35,30 +35,39 @@ cd_to_build_dir() {
     cd $BUILD_DIR
 }
 
-echo_loud "Updating apt-get..."
-sudo apt-get update
+APT_GET_UPDATED=""
 
-echo_loud "Checking for tmux..."
-sudo apt-get install tmux
-
-echo_loud "Checking for nodejs and npm..."
+echo_loud "Installing global javascript tools with npm..."
 if [ ! $(which node) ] || [ ! $(which npm) ]; then
     if [ "$(uname)" == "Darwin" ]; then
         brew install node
     else
         sudo add-apt-repository ppa:chris-lea/node.js
         sudo apt-get update
+        APT_GET_UPDATED=1
         sudo apt-get install nodejs
   fi
 fi
-
-echo_loud "Installing global javascript tools with npm..."
 for x in grunt-cli jslint jshint; do
     sudo npm list -g | grep $x || sudo npm install -g $x
 done
 
+if [ ! $APT_GET_UPDATED ]; then
+    echo_loud "Updating apt-get..."
+    sudo apt-get update
+fi
+
+echo_loud "Checking for tmux..."
+sudo apt-get install tmux
+
 echo_loud "Installing global python tools with pip..."
-for x in flake8 ipython; do
+if [ ! $(which pip) ]; then
+    if [ ! $(which easy_install) ];
+        sudo apt-get install python-setuptools
+    fi
+    sudo easy_install pip
+fi
+for x in flake8 ipython ipdb; do
     sudo pip freeze | grep $x || sudo pip install $x
 done
 
@@ -105,23 +114,25 @@ if [ ! -f ~/.vim/autoload/pathogen.vim ]; then
 fi
 cd ~/.vim/bundle
 vim_plugin_install() {
-    if [ -d $1 ]; then
-        echo_loud "$1 already installed."
+    URL=$1
+    NAME=$(basename $URL)
+    if [ -d $NAME ]; then
+        echo_loud "$NAME already installed."
     else
-        echo_loud "Installing $1"
-        git clone $2
+        echo_loud "Installing $NAME"
+        git clone $URL
     fi
 }
 echo_loud "Checking vim plugins..."
-vim_plugin_install syntastic https://github.com/scrooloose/syntastic
-vim_plugin_install vim-fugitive https://github.com/tpope/vim-fugitive
-vim_plugin_install delimitMate https://github.com/Raimondi/delimitMate
-vim_plugin_install nerdtree https://github.com/scrooloose/nerdtree
-vim_plugin_install tern_for_vim https://github.com/marijnh/tern_for_vim
-vim_plugin_install vim-css3-syntax https://github.com/hail2u/vim-css3-syntax
-vim_plugin_install vim-css-color https://github.com/skammer/vim-css-color
-vim_plugin_install vim-javascript https://github.com/pangloss/vim-javascript
-vim_plugin_install vim-javascript-syntax https://github.com/jelera/vim-javascript-syntax.git
+vim_plugin_install https://github.com/scrooloose/syntastic
+vim_plugin_install https://github.com/tpope/vim-fugitive
+vim_plugin_install https://github.com/Raimondi/delimitMate
+vim_plugin_install https://github.com/scrooloose/nerdtree
+vim_plugin_install https://github.com/marijnh/tern_for_vim
+vim_plugin_install https://github.com/hail2u/vim-css3-syntax
+vim_plugin_install https://github.com/skammer/vim-css-color
+vim_plugin_install https://github.com/pangloss/vim-javascript
+vim_plugin_install https://github.com/jelera/vim-javascript-syntax
 
 if [ ! -d YouCompleteMe ]; then
     echo_loud "Installing YouCompleteMe WITHOUT C/C++ support.  If you need C/C++, install it manually" \
