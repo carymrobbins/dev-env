@@ -2,6 +2,12 @@ execute pathogen#infect()
 syntax on
 filetype plugin on
 filetype indent on
+"Show line, column numbers in status bar.
+set ruler
+"Highlight search terms.
+set hlsearch
+"Custom command to clear search highlighting.
+command ClearSearch :let @/ = ""
 "Look for tags starting with current directory traversing upwards.
 set tags=./tags,tags;
 "Allow mouse scroll.
