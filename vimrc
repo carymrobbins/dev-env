@@ -39,15 +39,19 @@ fun BreakLine()
   endif
 endfun
 
-" Remap <Enter> to split the line and insert a new line in between if
-" BreakLine return True
+"Remap <Enter> to split the line and insert a new line in between if
+"BreakLine return True
 inoremap <expr> <CR> BreakLine() ? "<CR><ESC>O" : "<CR>"
 
-" Open NERDTree automatically if no files specified when opened.
+"Open NERDTree automatically if no files specified when opened.
 autocmd vimenter * if !argc() | NERDTree | endif
 
-" Ctrl+N to open/close NERDTree
+"Ctrl+N to open/close NERDTree
 map <C-n> :NERDTreeToggle<CR>
 
-" Close if NERDTree is the only open window.
+"Close if NERDTree is the only open window.
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+"Syntastic Overrides
+"Prevent PEP8 warnings for lines over 80 characters.
+let g:syntastic_quiet_messages = { "regex": "line too long" }

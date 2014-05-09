@@ -14,11 +14,12 @@ tmux_new_window_send() {
 }
 
 tmux new-session -d -s "$SESSION_NAME" -n term
-tmux_new_window_send dev 'vim' C-m
-tmux_new_window_send runserver 'med rs all --noreload' C-m
-tmux_new_window_send ipython 'med d shell' C-m
-tmux_new_window_send psql 'med db w' C-m
-tmux_new_window_send node 'node' C-m
+tmux_new_window_send dev        'vim' C-m
+tmux_new_window_send ack
+tmux_new_window_send ipython    'med d shell # Press enter to start ipython'
+tmux_new_window_send psql       'med db w # Press enter to start psql'
+tmux_new_window_send node       'node # Press enter to start node'
+tmux_new_window_send runserver  'med rs all --noreload # Press enter to start runserver'
 
 tmux select-window -t "$SESSION_NAME:1"
 tmux attach-session -t "$SESSION_NAME"
