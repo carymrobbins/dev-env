@@ -91,11 +91,7 @@ has_old_vim_version && {
         sudo update-alternatives --set editor /usr/bin/vim
         sudo update-alternatives --install /usr/bin/vi vi /usr/bin/vim 1
         sudo update-alternatives --set vi /usr/bin/vim
-        if [ has_old_vim_version ]; then
-            echo_bad "Build from source failed."
-        else
-            echo_loud "Build from source complete!"
-        fi
+        has_old_vim_version && echo_bad "Build from source failed." || echo_loud "Build from source complete!"
     }
 }
 
@@ -105,8 +101,8 @@ if [ ! -f ~/.vim/autoload/pathogen.vim ]; then
     echo_loud "Installing pathogen..."
     curl -LSso ~/.vim/autoload/pathogen.vim \
             https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
-    echo_loud "Make sure your .vimrc has the following line:"
-    echo_loud "execute pathogen#infect()"
+    echo_bad "Make sure your .vimrc has the following line:"
+    echo_bad "execute pathogen#infect()"
 fi
 cd ~/.vim/bundle
 vim_plugin_install() {
