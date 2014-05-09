@@ -61,18 +61,14 @@ echo_loud "Checking for tmux..."
 sudo apt-get install tmux
 
 echo_loud "Installing global python tools with pip..."
-if [ ! $(which pip) ]; then
-    if [ ! $(which easy_install) ];
-        sudo apt-get install python-setuptools
-    fi
-    sudo easy_install pip
-fi
+which easy_install > /dev/null || sudo apt-get install python-setuptools
+which pip > /dev/null          || sudo easy_install pip
 for x in flake8 ipython ipdb; do
-    sudo pip freeze | grep $x || sudo pip install $x
+    sudo pip freeze | grep $x > /dev/null || sudo pip install $x
 done
 
 # Build vim from source
-if [ $(has_old_vim_version) ]; then
+has_old_vim_version && {
     echo_loud "Looks like your vim is pretty old.  To use YouCompleteMe you need to build from source."
     confirm "Build from source now?" && {
         sudo apt-get install libncurses5-dev libgnome2-dev libgnomeui-dev \
@@ -101,7 +97,7 @@ if [ $(has_old_vim_version) ]; then
             echo_loud "Build from source complete!"
         fi
     }
-fi
+}
 
 echo_loud "Checking for pathogen..."
 mkdir -p ~/.vim/autoload ~/.vim/bundle
