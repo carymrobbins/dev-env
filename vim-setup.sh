@@ -125,6 +125,7 @@ vim_plugin_install https://github.com/hail2u/vim-css3-syntax
 vim_plugin_install https://github.com/skammer/vim-css-color
 vim_plugin_install https://github.com/pangloss/vim-javascript
 vim_plugin_install https://github.com/jelera/vim-javascript-syntax
+vim_plugin_install https://github.com/wincent/Command-T
 
 if [ ! -d YouCompleteMe ]; then
     echo_loud "Installing YouCompleteMe WITHOUT C/C++ support.  If you need C/C++, install it manually" \
