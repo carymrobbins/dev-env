@@ -6,6 +6,8 @@ filetype indent on
 set ruler
 "Highlight search terms.
 set hlsearch
+"Always show file name.
+set ls=2
 "Custom command to clear search highlighting.
 command ClearSearch :let @/ = ""
 "Look for tags starting with current directory traversing upwards.
