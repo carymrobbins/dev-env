@@ -2,24 +2,26 @@
 
 # Be sure to symlink this to your path.
 
-SESSION_NAME=moreau
-START_DIR=~/devel/cms_dev/src
-CURRENT_WINDOW=1
+tmux a || {
+    SESSION_NAME=moreau
+    START_DIR=~/devel/cms_dev/src
+    CURRENT_WINDOW=1
 
-tmux_new_window_send() {
-    CURRENT_WINDOW=$(expr $CURRENT_WINDOW + 1)
-    tmux new-window -t "$SESSION_NAME:$CURRENT_WINDOW" -n $1
-    shift
-    tmux send-keys  -t "$SESSION_NAME:$CURRENT_WINDOW" "cd $START_DIR" C-m "$@"
+    tmux_new_window_send() {
+        CURRENT_WINDOW=$(expr $CURRENT_WINDOW + 1)
+        tmux new-window -t "$SESSION_NAME:$CURRENT_WINDOW" -n $1
+        shift
+        tmux send-keys  -t "$SESSION_NAME:$CURRENT_WINDOW" "cd $START_DIR" C-m "$@"
+    }
+
+    tmux new-session -d -s "$SESSION_NAME" -n term
+    tmux_new_window_send dev        'vim' C-m
+    tmux_new_window_send ack
+    tmux_new_window_send ipython    'med d shell # Press enter to start ipython'
+    tmux_new_window_send psql       'med db w # Press enter to start psql'
+    tmux_new_window_send node       'node # Press enter to start node'
+    tmux_new_window_send runserver  'med rs all --noreload # Press enter to start runserver'
+
+    tmux select-window -t "$SESSION_NAME:1"
+    tmux attach-session -t "$SESSION_NAME"
 }
-
-tmux new-session -d -s "$SESSION_NAME" -n term
-tmux_new_window_send dev        'vim' C-m
-tmux_new_window_send ack
-tmux_new_window_send ipython    'med d shell # Press enter to start ipython'
-tmux_new_window_send psql       'med db w # Press enter to start psql'
-tmux_new_window_send node       'node # Press enter to start node'
-tmux_new_window_send runserver  'med rs all --noreload # Press enter to start runserver'
-
-tmux select-window -t "$SESSION_NAME:1"
-tmux attach-session -t "$SESSION_NAME"
