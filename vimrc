@@ -47,7 +47,8 @@ inoremap <expr> <CR> BreakLine() ? "<CR><ESC>O" : "<CR>"
 
 "Open NERDTree automatically if no files specified when opened.
 autocmd vimenter * if !argc() | NERDTree | endif
-
+"Show hidden files.
+let NERDTreeShowHidden=1
 "Ctrl+N to open/close NERDTree
 map <C-n> :NERDTreeToggle<CR>
 
