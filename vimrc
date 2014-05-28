@@ -59,3 +59,5 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 "Syntastic Overrides
 "Prevent PEP8 warnings for lines over 80 characters.
 let g:syntastic_quiet_messages = { "regex": "line too long" }
+"Prevent HLint warnings for top-level type signatures.
+let g:syntastic_quiet_messages = { "regex": "Top-level binding with no type signature" }
