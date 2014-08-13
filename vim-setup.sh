@@ -63,7 +63,7 @@ sudo apt-get install tmux
 echo_loud "Installing global python tools with pip..."
 which easy_install > /dev/null || sudo apt-get install python-setuptools
 which pip > /dev/null          || sudo easy_install pip
-for x in flake8 ipython ipdb; do
+for x in ipython ipdb pylint pylint-django; do
     sudo pip freeze | grep $x > /dev/null || sudo pip install $x
 done
 
