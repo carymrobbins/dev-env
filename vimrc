@@ -19,6 +19,7 @@ set number
 highlight LineNr ctermfg=grey
 "Enable backspace.
 set backspace=indent,eol,start
+"Tab settings.
 set smartindent
 set tabstop=8     "A tab is 8 spaces
 set expandtab     "Always uses spaces instead of tabs

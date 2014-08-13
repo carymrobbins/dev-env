@@ -5,7 +5,7 @@
 
 # Python code to execute, usually for sys.path manipulation such as
 # pygtk.require().
-init-hook='import os, sys; sys.path.extend(["/vagrant/devel/cms_dev/lib/python2.7/site-packages", "/vagrant/devel/cms_dev/local/lib/python2.7/site-packages"]); base = "/vagrant/devel/cms_dev/src"; sys.path.extend([os.path.join(base, x) for x in os.listdir(base)])'
+init-hook='import os; execfile(os.path.expanduser("~/.pylint.init.py"))'
 
 # Profiled execution.
 profile=no
@@ -44,7 +44,7 @@ symbols=no
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
-disable=missing-docstring,too-many-public-methods
+disable=missing-docstring,too-many-public-methods,too-few-public-methods,invalid-name,no-init
 
 
 [REPORTS]
@@ -150,7 +150,8 @@ bad-functions=apply,file
 good-names=i,j,k,ex,Run,_
 
 # Bad variable names which should always be refused, separated by a comma
-bad-names=foo,bar,baz,toto,tutu,tata
+# Let's just not have bad names
+bad-names=
 
 # Colon-delimited sets of names that determine each other's naming style when
 # the name regexes allow several styles.

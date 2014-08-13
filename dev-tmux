@@ -21,6 +21,7 @@ tmux a || {
     tmux_new_window_send psql       'med db w # Press enter to start psql'
     tmux_new_window_send node       'node # Press enter to start node'
     tmux_new_window_send runserver  'med rs all --noreload # Press enter to start runserver'
+    tmux_new_window_send ghci       'ghci # Press enter to start ghci'
 
     tmux select-window -t "$SESSION_NAME:1"
     tmux attach-session -t "$SESSION_NAME"
