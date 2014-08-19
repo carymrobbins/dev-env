@@ -57,8 +57,4 @@ map <C-n> :NERDTreeToggle<CR>
 "Close if NERDTree is the only open window.
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-"Syntastic Overrides
-"Prevent PEP8 warnings for lines over 80 characters.
-let g:syntastic_quiet_messages = { "regex": "line too long" }
-"Prevent HLint warnings for top-level type signatures.
-let g:syntastic_quiet_messages = { "regex": "Top-level binding with no type signature" }
+let g:syntastic_python_checkers = ['pylint']
