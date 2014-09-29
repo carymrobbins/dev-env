@@ -11,7 +11,7 @@ set ls=2
 "Custom command to clear search highlighting.
 command ClearSearch :let @/ = ""
 "Look for tags starting with current directory traversing upwards.
-set tags=./tags,tags;
+set tags=./tags,tags,codex.tags;
 "Allow mouse scroll.
 set mouse=nicr
 "Use line numbers, color them grey.
