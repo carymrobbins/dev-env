@@ -58,3 +58,6 @@ map <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 let g:syntastic_python_checkers = ['pylint']
+
+"Highlight trailing whitespace
+match Todo /\s\+$/
